@@ -1,0 +1,15 @@
+from typing import List
+import heapq
+class Solution:
+    def findMaxValueOfEquation(self, points: List[List[int]], k: int) -> int: 
+        max_heap = []
+        max_value = float('-inf')
+        for xj, yj in points: 
+            while max_heap and max_heap[0][1] < xj - k:
+                heapq.heappop(max_heap)
+            if max_heap:
+                current_max = yj + xj + (-max_heap[0][0])  # Negate because of max heap
+                max_value = max(max_value, current_max)
+            heapq.heappush(max_heap, (-(yj - xj), xj))
+        return max_value
+
