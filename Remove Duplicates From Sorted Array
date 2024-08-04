@@ -1,0 +1,12 @@
+from typing import List
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        if not nums:
+            return 0       
+        unique_pos = 0
+        for current in range(1, len(nums)):
+            if nums[current] != nums[unique_pos]:
+                unique_pos += 1
+                nums[unique_pos] = nums[current]      
+        return unique_pos + 1
+
