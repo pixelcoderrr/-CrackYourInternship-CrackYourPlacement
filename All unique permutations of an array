@@ -1,0 +1,20 @@
+from typing import List
+class Solution:
+    def uniquePerms(self, arr: List[int], n: int) -> List[List[int]]:
+        arr.sort()
+        results = []
+        def backtrack(path, used):    
+            if len(path) == n:
+                results.append(path[:])  # Make a copy of path
+                return   
+            for i in range(n):      
+                if used[i] or (i > 0 and arr[i] == arr[i - 1] and not used[i - 1]):
+                    continue      
+                used[i] = True       
+                path.append(arr[i])      
+                backtrack(path, used)    
+                path.pop()
+                used[i] = False
+        used = [False] * n
+        backtrack([], used)        
+        return results
