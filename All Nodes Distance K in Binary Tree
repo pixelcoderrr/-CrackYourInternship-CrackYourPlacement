@@ -1,0 +1,29 @@
+from collections import deque
+from typing import List, Optional
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:     
+        parent_map = {}     
+        def dfs(node: Optional[TreeNode], parent: Optional[TreeNode]):
+            if node:
+                parent_map[node] = parent
+                dfs(node.left, node)
+                dfs(node.right, node)    
+        dfs(root, None)     
+        queue = deque([(target, 0)])
+        visited = set([target]) 
+        result = []    
+        while queue:
+            current_node, current_distance = queue.popleft()
+            if current_distance == k:
+                result.append(current_node.val)
+            for neighbor in (current_node.left, current_node.right, parent_map[current_node]):
+                if neighbor and neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append((neighbor, current_distance + 1))
+        return result
+
